@@ -1,0 +1,117 @@
+plugins {
+    id 'java' 
+    id 'org.openjfx.javafxplugin' version '0.1.0' 
+}
+
+javafx {
+    version = '22.0.1'
+    modules = ['javafx.swing','javafx.controls','javafx.graphics']
+}
+ 
+
+repositories { 
+    mavenCentral {
+        content {
+            excludeModule("javax.media", "jai_core")
+        }
+    }
+    maven { url 'https://repo.osgeo.org/repository/release/' } 
+}
+
+dependencies {	
+
+    //MAGIC STUDIO
+    // Source: https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.6.5")
+
+    // Source: https://mvnrepository.com/artifact/com.google.javascript/closure-compiler
+    implementation("com.google.javascript:closure-compiler:v20261026") 
+    
+    // https://mvnrepository.com/artifact/org.json/json 
+    implementation("org.json:json:20250517") 
+    
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.13.1")
+ 
+    // https://mvnrepository.com/artifact/com.squareup.okhttp3/okhttp
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.14")
+
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.14'
+    
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime
+    implementation group: 'org.apache.httpcomponents', name: 'httpmime', version: '4.3.1'
+
+    
+    // https://mvnrepository.com/artifact/commons-httpclient/commons-httpclient
+    implementation group: 'commons-httpclient', name: 'commons-httpclient', version: '3.1'
+
+ 
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation("commons-io:commons-io:2.19.0") 
+	// https://mvnrepository.com/artifact/org.apache.httpcomponents/fluent-hc
+    
+    implementation group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.14'
+	 
+    implementation 'com.amazonaws:aws-lambda-java-events:2.2.9'
+
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-lambda-java-core
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.3'
+    
+    // https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3
+    implementation("com.amazonaws:aws-java-sdk-s3:1.12.783") 
+
+	implementation 'javax.xml.bind:jaxb-api:2.2.4'
+ 
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+   
+    implementation("org.apache.commons:commons-lang3:3.17.0") 
+    
+    // https://mvnrepository.com/artifact/edu.emory.mathcs/JTransforms
+    implementation 'edu.emory.mathcs:JTransforms:2.4'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+ 
+    runtimeOnly 'com.amazonaws:aws-lambda-java-log4j2:1.5.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
+}
+ 
+
+task packageBig(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+task packageLibs(type: Zip) {
+    into('java/lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+task packageSmall(type: Zip) {
+    from compileJava
+    from processResources
+}
+
+// MAGIC STUDIO: shell.html and cookbook.js are read from the classpath as /magic/shell.html and /magic/cookbook.js.
+// Put them in src/main/resources/magic/ (copied automatically). The block below ALSO copies them if you keep them
+// next to the Java files in src/main/java/aiillustwitter/magic/ (then read them as /aiillustwitter/magic/...).
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    // also pick up the two files if they sit next to the Java sources (they keep their folder: /aiillustwitter/magic/...)
+    from('src/main/java') {
+        include 'aiillustwitter/magic/**'
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+build.dependsOn packageSmall

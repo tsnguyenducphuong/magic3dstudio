@@ -1,0 +1,130 @@
+# This AWS SAM template has been generated from your function's configuration. If
+# your function has one or more triggers, note that the AWS resources associated
+# with these triggers aren't fully specified in this template and include
+# placeholder values. Open this template in AWS Infrastructure Composer or your
+# favorite IDE and modify it to specify a serverless application with other AWS
+# resources.
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: An AWS Serverless Application Model template describing your function.
+Resources:
+  aiillustwitterjava:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: build/distributions/java-magic-studio.zip
+      Description: ''
+      MemorySize: 3008
+      Timeout: 262
+      Handler: aiillustwitter.MagicStudioHandler
+      Runtime: java25
+      Architectures:
+        - x86_64
+      EphemeralStorage:
+        Size: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: >-
+            -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+            -XX:MaxHeapSize=4505605k -Duser.home=/tmp/
+            -Djava.library.path=.:/usr/lib64:/var/task/lib:/usr/lib
+            -Dprism.order=sw,j2d -Dglass.platform=Monocle
+            -Dmonocle.platform=Headless -Dprism.useFontConfig=false
+            -Dtestfx.robot=glass -Dtestfx.headless=true -Djava.awt.headless=true
+      EventInvokeConfig:
+        MaximumEventAgeInSeconds: 21600
+        MaximumRetryAttempts: 2
+      Layers:
+        - !Ref Layer1
+      PackageType: Zip
+      Policies:
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:*
+                - s3-object-lambda:*
+              Resource: '*'
+            - Effect: Allow
+              Action:
+                - cloudformation:DescribeStacks
+                - cloudformation:ListStackResources
+                - cloudwatch:ListMetrics
+                - cloudwatch:GetMetricData
+                - ec2:DescribeSecurityGroups
+                - ec2:DescribeSubnets
+                - ec2:DescribeVpcs
+                - kms:ListAliases
+                - iam:GetPolicy
+                - iam:GetPolicyVersion
+                - iam:GetRole
+                - iam:GetRolePolicy
+                - iam:ListAttachedRolePolicies
+                - iam:ListRolePolicies
+                - iam:ListRoles
+                - lambda:*
+                - logs:DescribeLogGroups
+                - states:DescribeStateMachine
+                - states:ListStateMachines
+                - tag:GetResources
+                - xray:GetTraceSummaries
+                - xray:BatchGetTraces
+              Resource: '*'
+            - Effect: Allow
+              Action:
+                - iam:PassRole
+              Resource: '*'
+              Condition:
+                StringEquals:
+                  iam:PassedToService: lambda.amazonaws.com
+            - Effect: Allow
+              Action:
+                - logs:DescribeLogStreams
+                - logs:GetLogEvents
+                - logs:FilterLogEvents
+              Resource: arn:aws:logs:*:*:log-group:/aws/lambda/*
+            - Effect: Allow
+              Action:
+                - logs:PutLogEvents
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+              Resource: arn:aws:logs:*:*:*
+            - Effect: Allow
+              Action:
+                - s3:GetObject
+              Resource: arn:aws:s3:::*/*         
+      RecursiveLoop: Terminate
+      SnapStart:
+        ApplyOn: PublishedVersions
+      Events:
+        BucketEvent1:
+          Type: S3
+          Properties:
+            Bucket:
+              Ref: Bucket1
+            Events:
+              - s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: .txt
+      RuntimeManagementConfig:
+        UpdateRuntimeOn: Auto
+  Bucket1:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+  # This resource represents your Layer with name java-ai-illustwitter-lib. To
+# download the content of your Layer, go to
+# 
+# aws.amazon.com/go/view?arn=arn%3Aaws%3Alambda%3Aus-east-1%3A288761761958%3Alayer%3Ajava-ai-illustwitter-lib%3A5&source=lambda
+  Layer1:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      ContentUri: build/java-magic-studio-lib.zip
+      LayerName: java-magic-studio-lib
+      CompatibleRuntimes: []
