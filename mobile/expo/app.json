@@ -1,0 +1,135 @@
+{
+  "expo": {
+    "name": "Magic Studio",
+    "slug": "MagicStudio",
+    "version": "2.0.2",
+    "orientation": "portrait",
+    "icon": "./assets/images/magicstudio-logo.png",
+    "scheme": "magicstudio",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "icon": "./assets/images/magicstudio-logo.png",
+      "buildNumber": "2.0.2",
+      "bundleIdentifier": "art.illustwitter.magicstudio",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/magicstudio-logo.png",
+        "backgroundImage": "./assets/images/magicstudio-logo.png",
+        "monochromeImage": "./assets/images/magicstudio-logo.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "art.illustwitter.magicstudio",
+      "versionCode": 202,
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.ACCESS_MEDIA_LOCATION",
+        "android.permission.CAMERA",
+        "com.google.android.gms.permission.AD_ID",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.INTERNET",
+        "android.permission.READ_MEDIA_VISUAL_USER_SELECTED",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION"
+      ]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/magicstudio-logo.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#ffffff",
+          "image": "./assets/images/magicstudio-logo.png",
+          "imageWidth": 200
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Giving access to your camera will allow us to edit the photo taken by the camera."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow Magic Studio to access your photos to let you select photo for editing.",
+          "cameraPermission": "Giving access to your camera will allow us to edit the photo taken by the camera."
+        }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
+      ],
+      "expo-sharing",
+      "expo-video",
+      [
+        "expo-turbo-screen-recorder",
+        {
+          "microphonePermission": "Allow Magic Studio to access your microphone for playing video."
+        }
+      ],
+      [
+        "expo-sqlite",
+        {
+          "enableFTS": true,
+          "useSQLCipher": true,
+          "withSQLiteVecExtension": false,
+          "android": {
+            "enableFTS": false,
+            "useSQLCipher": false
+          },
+          "ios": {
+            "customBuildFlags": [
+              "-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"
+            ]
+          }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "buildToolsVersion": "36.0.0",
+            "enableMinifyInReleaseBuilds": false,
+            "enableShrinkResourcesInReleaseBuilds": false,
+            "minSdkVersion": 29,
+            "extraProguardRules": "-keep class * extends expo.modules.kotlin.views.ExpoView { <init>(...); }\n-keep class expo.modules.gl.** { *; }\n-keep class expo.modules.kotlin.views.** { *; }\n-keepclassmembers class * extends expo.modules.kotlin.views.ExpoView { <init>(...); }",
+            "packagingOptions": {
+              "pickFirst": [
+                "lib/*/libavcodec.so",
+                "lib/*/libavdevice.so",
+                "lib/*/libavfilter.so",
+                "lib/*/libavformat.so",
+                "lib/*/libavutil.so",
+                "lib/*/libswresample.so",
+                "lib/*/libswscale.so"
+              ]
+            }
+          },
+          "ios": {
+            "flipper": false,
+            "deploymentTarget": "17.0"
+          }
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
