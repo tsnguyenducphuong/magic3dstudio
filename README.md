@@ -15,7 +15,13 @@ Magic3D Studio is a mobile app for online business owners who has little or no e
 
 ## Watch Demo Video
 
-https://youtube.com/shorts/18vL4ujylDE?si=1NsBLmACbzyh_mlJ
+<p align="center">
+  <a href="https://youtube.com/shorts/18vL4ujylDE?si=1NsBLmACbzyh_mlJ">
+    <img src="https://github.com/tsnguyenducphuong/magic3dstudio/blob/main/docs/Magic3DStudio-thumbnail.jpg" width="320" alt="Watch YouTube Shorts Demo">
+  </a>
+</p>
+
+
 
  ## Download Magic3DStudio on the App Store
 
